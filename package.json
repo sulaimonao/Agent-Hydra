@@ -1,0 +1,36 @@
+{
+  "name": "hydraflow",
+  "version": "1.0.0",
+  "description": "Local-first HydraFlow",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "NODE_ENV=development node server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
+    "test": "npm run test:workflow",
+    "test:workflow": "DB_PATH=:memory: node tests/test-workflow.js",
+    "test:smoke": "node tests/smoke-test.js",
+    "test:contract": "node tests/contract-tests.js",
+    "preflight": "node scripts/preflight-imports.mjs",
+    "db:doctor": "node scripts/db-doctor.mjs",
+    "prepush": "npm run preflight && npm test",
+    "lint": "eslint .",
+    "fmt": "prettier --write ."
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.1.2",
+    "better-sqlite3-session-store": "^0.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "node-fetch": "^3.3.2",
+    "uuid": "^10.0.0",
+    "winston": "^3.8.2",
+    "zod": "^4.1.8"
+  },
+  "devDependencies": {
+    "eslint": "^9.35.0",
+    "prettier": "^3.6.2"
+  }
+}
