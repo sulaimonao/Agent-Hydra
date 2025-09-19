@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "types": ["node"],
+    "strict": false
+  },
+  "include": [
+    "agent/**/*.ts",
+    "server/**/*.ts",
+    "scripts/**/*.ts",
+    "tests/**/*.ts"
+  ]
+}

@@ -7,6 +7,14 @@ info:
     and real-time gauge (instrument cluster) insights.
   version: 1.4.0
 
+actions:
+  - name: web_search
+    description: DuckDuckGo HTML search returning the top organic results.
+  - name: fetch_page
+    description: Fetch a web page and return readable text content.
+  - name: save_note
+    description: Persist a short note to the local hydraflow SQLite database.
+
 servers:
   - url: https://hydra-flow.vercel.app/api
     description: Deployed API server

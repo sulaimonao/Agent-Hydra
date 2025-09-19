@@ -37,3 +37,31 @@ This version of HydraFlow has been refactored to run 100% locally, using SQLite 
     ```bash
     npm test
     ```
+
+### Agent Quickstart (local-only)
+
+1. **Requirements**
+   - [Ollama](https://ollama.com) running locally.
+   - Pull a compatible model (default `mistral`):
+     ```bash
+     ollama pull mistral
+     ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Run via CLI**
+   ```bash
+   MODEL=mistral OLLAMA_URL=http://localhost:11434 HYDRA_DB=./hydraflow.db \
+   npm run agent -- "Research Whoosh vs Tantivy; save a 150-word note."
+   ```
+
+4. **Call over HTTP**
+   Ensure the dev server is running (`npm run dev`), then:
+   ```bash
+   curl -X POST http://localhost:3000/api/agent/run \
+     -H "content-type: application/json" \
+     -d '{"goal":"Summarize LLM eval best practices."}'
+   ```
