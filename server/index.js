@@ -23,6 +23,7 @@ import parseQueryHandler from '../api/parse-query.js';
 import summarizeLogsHandler from '../api/summarize-logs.js';
 import taskHandler from '../api/task.js';
 import testWriteHandler from '../api/test-write.js';
+import { agentRouter } from './routes/agent.js';
 
 dotenv.config({ path: '.env.local' });
 
@@ -70,6 +71,7 @@ app.post('/api/parse-query', parseQueryHandler);
 app.post('/api/summarize-logs', summarizeLogsHandler);
 app.all('/api/task', taskHandler);
 testWriteHandler(app);
+app.use('/api/agent', agentRouter);
 
 
 // Start server
