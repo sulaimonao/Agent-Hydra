@@ -17,25 +17,29 @@ This version of HydraFlow has been refactored to run 100% locally, using SQLite 
     npm install
     ```
 
-3.  **Set up your environment**:
-    Copy the `.env.example` file to `.env.local`.
+3.  **Create environment variables**:
+    The server looks for a `.env.local` file. Create one with at least:
     ```bash
-    cp .env.example .env.local
+    cat <<'EOF' > .env.local
+    MODEL=mistral
+    OLLAMA_URL=http://localhost:11434
+    HYDRA_DB=./hydraflow.db
+    HOST=127.0.0.1
+    PORT=3000
+    EOF
     ```
+    Adjust the values to match your Ollama setup or desired database path.
 
-4.  **Initialize the database**:
+4.  **Start the local API (UI + agent backend)**:
+    Use `tsx` so TypeScript sources load without a separate build step.
     ```bash
-    npm run db:migrate
+    npm exec tsx server/index.js
     ```
+    The server runs migrations on boot and exposes the agent at `/api/agent/run`.
 
-5.  **Start the server**:
+5.  **Run the tests**:
     ```bash
-    npm run dev
-    ```
-
-6.  **Run the tests**:
-    ```bash
-    npm test
+    npm run test:agent
     ```
 
 ### Agent Quickstart (local-only)
@@ -59,9 +63,34 @@ This version of HydraFlow has been refactored to run 100% locally, using SQLite 
    ```
 
 4. **Call over HTTP**
-   Ensure the dev server is running (`npm run dev`), then:
+   Ensure the dev server is running (`npm exec tsx server/index.js`), then:
    ```bash
    curl -X POST http://localhost:3000/api/agent/run \
      -H "content-type: application/json" \
      -d '{"goal":"Summarize LLM eval best practices."}'
    ```
+
+### Agent UI Quickstart
+
+1. **Ensure the API is running**
+   - Start the backend with the environment variables from the quickstart:
+     ```bash
+     MODEL=mistral OLLAMA_URL=http://localhost:11434 HYDRA_DB=./hydraflow.db \
+     PORT=3001 npm exec tsx server/index.js
+     ```
+     Using `PORT=3001` keeps the API separate from a UI dev server on `3000`.
+
+2. **Point your UI at the local API**
+   - Configure your UI client (for example, a Vite/Next app) to call
+     `http://127.0.0.1:3001/api/agent/run`.
+   - A quick health check before launching the browser UI:
+     ```bash
+     curl -X POST http://127.0.0.1:3001/api/agent/run \
+       -H "content-type: application/json" \
+       -d '{"goal":"List three interesting OSS AI eval projects."}'
+     ```
+
+3. **Launch the browser UI**
+   - Start your UI project (not included in this repository) with its usual
+     dev command once the API above responds successfully. The UI can now
+     create and monitor agent runs through the local backend.
